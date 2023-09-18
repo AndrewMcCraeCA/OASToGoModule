@@ -148,11 +148,11 @@ openapi-generator generate \
 
 So now lets run the script: 
 
-`./scripts/generateClient.sh examples/acmi.json irndru goacmi`
+`./scripts/generateClient.sh examples/acmi.json AndrewMcCraeCA goacmi`
 
 You should see something like:
 
-`Created new Go module: github.com/irndru/goacmi in folder /Users/andrew.mccrae/code/github/irndru/OASToGoModule/goacmi`
+`Created new Go module: github.com/AndrewMcCraeCA/goacmi in folder /Users/andrew.mccrae/code/github/AndrewMcCraeCA/OASToGoModule/goacmi`
 
 That's it, we now have a full go module providing us an API client, with tests and documentation as well!
 
@@ -183,7 +183,7 @@ import (
     "context"
     "fmt"
     "os"
-    openapiclient "github.com/irndru/goacmi"
+    openapiclient "github.com/AndrewMcCraeCA/goacmi"
 )
 
 func main() {
@@ -217,7 +217,7 @@ Open the go.mod file in our project repo. There should be a line with the follow
 Update this with your github username and name of the new module and uncomment the line. It should look something like this:
 
 ```
-replace github.com/irndru/goacmi v0.0.0 => ./goacmi
+replace github.com/AndrewMcCraeCA/goacmi v0.0.0 => ./goacmi
 ```
 
 Now in the terminal make sure you are in the `OASToGoModule` directory and run:
@@ -226,7 +226,7 @@ Now in the terminal make sure you are in the `OASToGoModule` directory and run:
 
 You should see something like:
 
-`go: found github.com/irndru/goacmi in github.com/irndru/goacmi v0.0.0`
+`go: found github.com/AndrewMcCraeCA/goacmi in github.com/AndrewMcCraeCA/goacmi v0.0.0`
 
 #### Now lets run it
 

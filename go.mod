@@ -1,4 +1,4 @@
-module github.com/irndru/OAStoGoModule
+module github.com/AndrewMcCraeCA/OAStoGoModule
 
 go 1.20
 
