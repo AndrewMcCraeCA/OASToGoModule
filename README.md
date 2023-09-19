@@ -60,11 +60,13 @@ Full instructions can be found here https://openapi-generator.tech/docs/installa
 This project is divided into several steps, each with its own set of actions and instructions. 
 Follow the steps below to progress through the session:
 
+---
+
 ### Step 1: Choose your API-dventure
 
 For this session we want to work from an OpenAPI specification file for an existing HTTP API.
 
-#### What is OpenAPI?
+##### What is OpenAPI?
 The OpenAPI specification, formerly known as Swagger, is a set of rules and conventions for defining and describing RESTful APIs (Application Programming Interfaces) in a standardized and machine-readable format. 
 It serves as a way to document and communicate the functionality, structure, and behavior of an API, making it easier for developers to understand and interact with the API.
 
@@ -86,14 +88,14 @@ Some recommendations to consider when choosing your example API:
 * Authentication is either not required or is simple like username/password or uses an access token/apikey(that you already have).
 * The API has some easy to fairly simple GET requests that you can wrap your head around.
 
-
+---
 ### Step 2: Generate the module
 
 Now we have our API spec file, we want to generate the client code for it.
 
 To do this we will use the openapi-generator CLI tool. Other tools are available such as Swagger Codegen, AutoRest and NSwag, feel free to explore these in future but for this session we will use openapi-generator.
 
-#### What is openapi-generator?
+##### What is openapi-generator?
 OpenAPI-generator a widely-used, open-source tool that supports a wide range of programming languages. It can generate client libraries, server stubs, API documentation, and more from OpenAPI specifications.
 
 This tool can create code for many different languages. It is open source so developers can add new generators for languages not currently supported.
@@ -162,6 +164,7 @@ It is recommended to confirm the module is all working ok. We can do this by run
 go mod tidy && go test ./...
 ```
 
+---
 ### Step 3: Trying it locally
 
 Now we have our Go module maybe we should try it out.
@@ -202,13 +205,13 @@ func main() {
 
 Returning to the project repo we can paste this code over the empty [main.go](./main.go) file.
 
-Edit the example to ensure you have added any required fields like API keys or parameters.
+Edit the example to ensure you have added any required fields like API keys or request parameters.
 
 Then we should be ready to roll. However! since this newly created module is not public we need to point to our local version for now.
 
 #### Modifying our go.mod file
 
-Open the go.mod file in our project repo. There should be a line with the following comment:
+Open the [go.mod](./go.mod) file in our project repo. There should be a line with the following comment:
 
 ```
 //replace github.com/<your-github-name-here>/<your-go-module-name-here> v0.0.0 => ./<your-go-module-name-here>
@@ -241,3 +244,52 @@ Response from `DefaultAPI.RootGet`: &{0xc0001aa140 [/constellations/ /constellat
 ```
 
 Remember that the client code has created a series of structs for the response object and it's fields. Sometimes these will be pointers and you may need to dereference them just now to see the values.
+
+---
+
+### Step 4: Publishing the module.
+
+Now we have our generated module, and we know it works we can publish it.
+
+As with all things Go there is a bunch of great documentation on [developing](https://go.dev/doc/modules/developing) and [publishing](https://go.dev/doc/modules/publishing) modules in the [go docs](https://go.dev/doc/)
+
+To publish this go module we want it in its own git repo, make sure to use the same name as the module.
+
+
+#### Create new module git repo
+To do this let's quickly jump to [Create a new repository in github](https://github.com/new)
+
+Choose yourself as the owner and use the module name as the repo name and make it public.
+
+Make sure to change directory into your module. Then let's push the module code to the repo:
+
+```
+cd goacmi
+git init
+git add -A 
+git commit -m "init module repo"
+git branch -M main
+git remote add origin git@github.com:AndrewMcCraeCA/goacmi.git
+git push -u origin main
+```
+
+Then let's tag the repo/module with a version. Let's just put all zeros for now.
+
+```
+git tag v0.0.0
+git push origin v0.0.0
+```
+
+---
+# !!!WARNING!!
+Listing a go module adds a cached version of the module to https://proxy.golang.org/ which cannot be removed and is available publicly.
+So if you do not want the contents/functionality of your module to be public maybe leave stop here before this next step.
+
+---
+
+
+Then let's use the [go list command](https://pkg.go.dev/cmd/go/internal/list) to actually publish the module to go modules
+```
+GOPROXY=proxy.golang.org go list -m github.com/AndrewMcCraeCA/goacmi@v0.0.0
+```
+
