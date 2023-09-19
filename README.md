@@ -282,7 +282,7 @@ git push origin v0.0.0
 
 ---
 # !!!WARNING!!
-Listing a go module adds a cached version of the module to https://proxy.golang.org/ which cannot be removed and is available publicly.
+Listing a go module [adds a cached version of the module to the proxy.golang.org mirror which cannot be removed](https://proxy.golang.org/) and is available publicly.
 So if you do not want the contents/functionality of your module to be public maybe leave stop here before this next step.
 
 ---
@@ -293,3 +293,12 @@ Then let's use the [go list command](https://pkg.go.dev/cmd/go/internal/list) to
 GOPROXY=proxy.golang.org go list -m github.com/AndrewMcCraeCA/goacmi@v0.0.0
 ```
 
+And that's it! You've published a brand-new Go module!
+
+#### Updating our go.mod file to public module
+
+Now we can go back to the projects [go.mod](./go.mod) file and remove the line containing the `replace directive`.
+
+Then re-run `go mod tidy` and `go run main.go`
+
+Your code should still run as before but now it is using the version of your module hosted by the proxy! 
